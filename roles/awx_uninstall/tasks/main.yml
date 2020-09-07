@@ -1,0 +1,71 @@
+---
+
+- name: Ensure a list of packages removed for awx
+  dnf:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - git
+    - gcc
+    - gcc-c++
+    - ansible
+    - nodejs
+    - gettext
+    - device-mapper-persistent-data
+    - lvm2
+    - bzip2
+    state: absent
+  tags: awx_uninstall
+        
+  
+- name: disable docker service
+  systemd:
+    name: docker
+    enabled: no
+  tags: awx_uninstall
+           
+- name: Make sure docker service is stopped
+  systemd:
+    state: stopped
+    name: docker
+  tags: awx_uninstall
+
+- name: Recursively remove directory awx
+  file:
+    path: /root/awx
+    state: absent
+  tags: awx_uninstall
+        
+- name: remove docker-ce 
+  dnf:
+    name: docker-ce-3:18.09.1-3.el7
+    state: absent
+  tags: awx_uninstall
+
+
+- name: Remove Docker CE repository
+  command: dnf config-manager --set-disabled docker-ce-stable
+  tags: awx_uninstall  
+
+- name: Remove file docker-ce.repo
+  file:
+    path: /etc/yum.repos.d/docker-ce.repo
+    state: absent
+  tags: awx_uninstall
+
+- name: Remove docker compose
+  command: pip3 uninstall -y docker-compose
+  tags: awx_uninstall
+
+  
+- name: Recursively remove directory /var/lib/docker
+  file:
+    path: /var/lib/docker
+    state: absent
+  tags: awx_uninstall
+
+- name: Recursively remove directory /etc/docker
+  file:
+    path: /etc/docker
+    state: absent
+  tags: awx_uninstall

@@ -1,0 +1,65 @@
+---
+
+- name: Include variable
+  include_vars:
+    file: vars.yml
+  tags: awx_repo
+
+
+- name: Download AWX repository
+  git:
+    repo: 'https://github.com/ansible/awx.git'
+    dest: /root/awx/
+    clone: yes
+  tags: awx_repo
+
+
+- name: Template inventory_awx.j2 file to /root/awx/installer
+  template:
+    src: inventory_awx.j2
+    dest: /root/awx/installer/inventory
+    owner: root
+    group: root
+    mode: '0644'
+  tags: awx_repo
+
+ 
+- name: Change the working directory to /root/awx/installer before executing the command.
+  command: ansible-playbook -i inventory install.yml
+  args:
+    chdir: /root/awx/installer
+  tags: awx_repo
+
+
+- name: adding firewall rules for awx service
+  firewalld: 
+    zone: public
+    masquerade: yes
+    permanent: true
+    state: enabled
+  notify: Reloading firewalld rules
+  tags: firewall_awx
+  
+
+- name: adding firewall rules for http service
+  firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+  notify: Reloading firewalld rules
+  tags: firewall_awx
+    
+
+- name: adding firewall rules for https service
+  firewalld:
+    service: https
+    permanent: yes
+    state: enabled
+  notify: Reloading firewalld rules
+  tags: firewall_awx
+
+
+
+
+
+  

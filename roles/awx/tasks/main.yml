@@ -1,0 +1,55 @@
+---
+
+- name: Ensure a list of packages installed for awx
+  dnf:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - git
+    - gcc
+    - gcc-c++
+    - ansible
+    - nodejs
+    - gettext
+    - device-mapper-persistent-data
+    - lvm2
+    - bzip2
+    - python3-pip
+  tags: awx
+
+
+- name: Add Docker CE repository
+  command: dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo 
+  tags: awx
+
+- name: install docker-ce 
+  dnf:
+    name: docker-ce-3:18.09.1-3.el7
+    state: present
+  tags: awx
+
+
+- name: enable docker service
+  systemd:
+    name: docker
+    enabled: yes
+  tags: awx
+  
+- name: Make sure docker service is running
+  systemd:
+    state: started
+    name: docker
+  tags: awx
+
+
+- name: Setting python3 version predefinited
+  alternatives:
+    name: python
+    path: /usr/bin/python3
+  tags: awx
+
+
+- name: Install docker compose
+  command: pip3 install docker-compose
+  tags: awx
+

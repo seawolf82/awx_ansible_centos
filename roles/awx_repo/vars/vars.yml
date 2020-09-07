@@ -1,0 +1,21 @@
+---
+
+# Inventory Variables
+# Postgresql Variables
+
+postgres_data_dir: /var/lib/pgdocker
+pg_password: awxpass
+pg_admin_password: awx_admin
+
+# AWX console web Variables
+
+admin_user: admin
+admin_password: admin
+
+# AWX secret Key:
+
+secret_key: SNZ8AD+XD3G6DowCf+ielCgH8FXPBVJ81TPQ93yY
+
+# AWX project Data Folder
+
+project_data_dir: /var/lib/awx/projects

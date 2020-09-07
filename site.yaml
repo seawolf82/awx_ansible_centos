@@ -1,0 +1,8 @@
+- hosts: awx-servers
+  remote_user: root
+  roles:
+    - common
+    - awx
+    - awx_repo
+
+

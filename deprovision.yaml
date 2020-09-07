@@ -1,0 +1,6 @@
+- name: Terminate running awx and remove all files
+  hosts: awx-servers
+  remote_user: root
+  roles:
+    - awx_uninstall
+
