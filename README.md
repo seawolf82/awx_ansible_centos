@@ -1,5 +1,8 @@
 # awx_ansible_centos8
 
+Before to run the script, install on remote host this package: python39 
+To do this run: dnf install python39 -y
+
 This ansible script install on remote machine The awx project, To install run:
 
 ansible-playbook -vv -i hosts site.yaml
