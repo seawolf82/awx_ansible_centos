@@ -1,4 +1,4 @@
-# awx_ansible_centos
+# awx_ansible_centos8
 
 This ansible script install on remote machine The awx project, To install run:
 
