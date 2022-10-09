@@ -1,7 +1,4 @@
-# awx_ansible_rocky8
-
-Before to run the script, install on remote host this package: python39 
-To do this run: dnf install python39 -y
+# awx_ansible_almalinux8
 
 This ansible script install on remote machine The awx project, To install run:
 
